@@ -14,7 +14,7 @@ export const experience: Role[] = [
     org: 'Grameenphone Ltd.',
     orgNote: 'Telenor Group',
     url: 'https://www.grameenphone.com/',
-    role: 'MLOps Engineer / Senior Executive',
+    role: 'AI Engineer / Senior Executive',
     period: 'Apr 2025 – Present',
     location: 'Dhaka, Bangladesh',
     summary: "Productionizing and governing ML systems at Bangladesh's largest telecom operator.",

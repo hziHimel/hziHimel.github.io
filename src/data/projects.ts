@@ -38,7 +38,6 @@ export const projects: Project[] = [
     blurb: 'A web service that detects, embeds, and matches faces in real time for customer recognition in retail outlets.',
     impact: 'Deployed at 5 Yamaha outlets',
     stack: ['FaceNet', 'Face detection', 'Web service'],
-    links: [{ label: 'Demo video', url: 'https://youtu.be/Fwoaese7iGs' }],
     featured: true,
   },
   {

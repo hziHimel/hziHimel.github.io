@@ -15,8 +15,8 @@ export const pursuits: {
   {
     key: 'chess',
     title: 'Chess',
-    headline: '2100 rapid on Chess.com',
-    body: 'I have climbed to a 2100 rapid rating on Chess.com. Opening preparation feels a lot like reading related work; the middlegame is where the experiments happen.',
+    headline: '2100+ rapid on Chess.com',
+    body: 'My rapid rating on Chess.com is above 2100. Opening preparation feels a lot like reading related work; the middlegame is where the experiments happen.',
   },
   {
     key: 'olympiad',

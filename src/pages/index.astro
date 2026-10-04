@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import PubItem from '../components/PubItem.astro';
 import portrait from '../assets/profile.jpg';
-import { profile, links, interests, highlights, news } from '../data/site';
+import { profile, links, interests, news } from '../data/site';
 import { publications } from '../data/publications';
 import { awards } from '../data/awards';
 ---
@@ -33,25 +33,38 @@ import { awards } from '../data/awards';
       <p class="eyebrow">{profile.title}</p>
       <h1>{profile.name} <span class="nick">({profile.nickname})</span></h1>
       <p class="lede">
-        I build machine-learning systems that work in the real world, and I study why multimodal models
-        sometimes only <em>look</em> like they work.
+        Hi, I'm Himel. I am an AI engineer and researcher from Dhaka, Bangladesh, and for over five years
+        I have been building machine-learning systems that people actually use.
       </p>
       <div class="prose">
         <p>
-          I am an M.Sc. student in Computer Science &amp; Engineering at
-          <a href="https://www.ewubd.edu/">East West University</a> and an MLOps Engineer at
-          <a href="https://www.grameenphone.com/">Grameenphone</a> (Telenor Group). My thesis examines
-          <strong>multimodal fusion</strong>: when a fused model scores well, did every branch actually learn
-          something useful, or is one quietly carrying the other? I approach the question through
-          <strong>optimization dynamics</strong>, <strong>representation learning</strong>, and careful diagnostic
-          evaluation, currently on biomedical audio.
+          I studied Electrical and Electronic Engineering at
+          <a href="https://www.buet.ac.bd/">Bangladesh University of Engineering and Technology (BUET)</a>,
+          where I focused on communication and signal processing. That background still shapes how I think
+          about data: as signals coming from real sensors, cameras, and people.
         </p>
         <p>
-          My path into this question ran through hardware. I trained as an electrical engineer at
-          <a href="https://www.buet.ac.bd/">BUET</a>, built sensor-driven ML for livestock, and later deployed
-          computer-vision systems at ACI Ltd., including Bangla license-plate recognition now running at
-          35+ factory sites. I also worked as a graduate research assistant at FIU's ACyD Lab on adversarial
-          attacks against distributed models on edge devices.
+          My career has moved from hardware toward large-scale AI. I started at <strong>Adorsho Pranisheba Ltd.</strong>,
+          working on IoT and embedded systems: sensor-based cattle monitoring and a muzzle-print identification
+          system for cattle, which later became an arXiv preprint. Next, at
+          <strong>ACI Ltd.</strong>, I built and deployed computer-vision systems, including Bangla license-plate
+          recognition now running at 35+ factory sites, face recognition for retail, and Bangla OCR. Today I work
+          at <a href="https://www.grameenphone.com/">Grameenphone</a> (Telenor Group), Bangladesh's largest
+          telecom operator. There I put ML into production, including semantic search, churn prediction,
+          recommendation, and the deployment and monitoring that keep them reliable.
+        </p>
+        <p>
+          Alongside work, I am completing an M.Sc. in Computer Science &amp; Engineering at
+          <a href="https://www.ewubd.edu/">East West University</a>. My interests are
+          <strong>multimodal learning</strong>, <strong>computer vision</strong>, and
+          <strong>signal processing</strong>. My thesis asks whether a multimodal model that scores well is
+          really using all of its inputs (<a href="/research/">more on my research</a>). I have also done
+          research on adversarial attacks against edge models at FIU's ACyD Lab.
+        </p>
+        <p>
+          I enjoy competing. My team won the Robi Axiata Datathon 3.0, and I have placed in IEEE and Telenor
+          AI challenges. Away from the screen I am a former national Rubik's Cube champion, a keen chess
+          player, and a self-taught musician (<a href="/beyond/">more here</a>).
         </p>
       </div>
       <div class="callout">
@@ -70,14 +83,6 @@ import { awards } from '../data/awards';
   </section>
 
   <div class="wrap">
-    <section class="section reveal">
-      <div class="stats">
-        {highlights.map((h) => (
-          <div class="stat"><span class="v">{h.value}</span><span class="l">{h.label}</span></div>
-        ))}
-      </div>
-    </section>
-
     <section class="section reveal">
       <div class="section-head"><h2>Research interests</h2></div>
       <ul class="chips">{interests.map((i) => <li class="chip">{i}</li>)}</ul>
@@ -138,10 +143,6 @@ import { awards } from '../data/awards';
   .callout p { margin: 0; font-size: 0.95rem; }
   .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
-  .stat { background: var(--surface); padding: 1.2rem 1.25rem; display: grid; gap: 0.2rem; }
-  .stat .v { font: 600 2rem/1.1 var(--font-serif); color: var(--accent); }
-  .stat .l { font-size: 0.85rem; color: var(--text-2); line-height: 1.4; }
 
   .two-col { display: grid; grid-template-columns: 1.15fr 1fr; gap: 3rem; }
   .news, .awards { list-style: none; margin: 0; padding: 0; }
@@ -156,7 +157,6 @@ import { awards } from '../data/awards';
     .hero { grid-template-columns: 1fr; gap: 1.75rem; padding-top: 2rem; }
     .id-card { position: static; display: grid; grid-template-columns: 140px 1fr; gap: 1.25rem; align-items: start; }
     .id-meta { margin-top: 0; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
     .two-col { grid-template-columns: 1fr; gap: 2rem; }
   }
   @media (max-width: 480px) {
