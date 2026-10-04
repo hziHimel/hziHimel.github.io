@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import PubItem from '../components/PubItem.astro';
+import Icon from '../components/Icon.astro';
+import { publications, inPreparation } from '../data/publications';
+import { links } from '../data/site';
+---
+<Base title="Publications" description="Publications and preprints by Hasan Zohirul Islam.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Publications</p>
+      <h1>Papers &amp; preprints</h1>
+      <p class="lede">An up-to-date list is also on <a href={links.scholar}>Google Scholar</a>.</p>
+    </header>
+
+    <section class="section">
+      <div class="section-head"><h2>In preparation</h2></div>
+      {inPreparation.map((p) => (
+        <div class="prep card">
+          <Icon name="paper" />
+          <div><strong>{p.title}</strong><p class="muted">{p.note}</p></div>
+        </div>
+      ))}
+    </section>
+
+    <section class="section">
+      <div class="section-head"><h2>Published &amp; preprints</h2></div>
+      {publications.map((p) => <PubItem pub={p} />)}
+    </section>
+  </div>
+</Base>
+<style>
+  .prep { display: flex; gap: 0.9rem; padding: 1.1rem 1.25rem; align-items: flex-start; }
+  .prep :global(svg) { color: var(--accent); margin-top: 3px; flex-shrink: 0; }
+  .prep p { margin: 0.2rem 0 0; font-size: 0.9rem; }
+</style>

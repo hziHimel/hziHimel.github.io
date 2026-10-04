@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { projects, type Category } from '../data/projects';
+
+const categories: Category[] = ['Vision', 'Research', 'LLM & MLOps', 'Signals & IoT'];
+const featured = projects.filter((p) => p.featured);
+const rest = projects.filter((p) => !p.featured);
+const slug = (c: string) => c.toLowerCase().replace(/[^a-z]+/g, '-');
+---
+<Base title="Projects" description="Deployed ML systems and research projects in computer vision, signals, and MLOps by Hasan Zohirul Islam.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Projects</p>
+      <h1>Systems that left the lab</h1>
+      <p class="lede">A selection of research prototypes and deployed systems. Some industry work is described at a high level only.</p>
+    </header>
+
+    <section class="section">
+      <div class="section-head"><h2>Featured</h2></div>
+      <div class="featured">
+        {featured.map((p, i) => (
+          <article class={`card feat ${i === 0 ? 'lead' : ''}`}>
+            {p.image ? (
+              <Image src={p.image} alt={`${p.title} screenshot`} widths={[480, 800]} sizes="(max-width: 860px) 100vw, 50vw" class="thumb" />
+            ) : (
+              <div class={`thumb art art-${slug(p.category)}`} aria-hidden="true"><span>{p.title.split(' ').slice(0, 2).join(' ')}</span></div>
+            )}
+            <div class="feat-body">
+              <p class="meta"><span class={`cat cat-${slug(p.category)}`}>{p.category}</span> {p.where} · {p.year}</p>
+              <h3>{p.title}</h3>
+              <p>{p.blurb}</p>
+              {p.impact && <p class="impact">{p.impact}</p>}
+              <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+              {p.links && (
+                <div class="plinks">
+                  {p.links.map((l) => (
+                    <a class="btn" href={l.url}><Icon name={l.label.includes('Demo') ? 'play' : 'paper'} /> {l.label}</a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>More projects</h2>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button type="button" class="filter" aria-pressed="true" data-f="all">All</button>
+          {categories.map((c) => <button type="button" class="filter" aria-pressed="false" data-f={slug(c)}>{c}</button>)}
+        </div>
+      </div>
+      <div class="grid" id="project-grid">
+        {rest.map((p) => (
+          <article class="card item" data-cat={slug(p.category)}>
+            <p class="meta"><span class={`cat cat-${slug(p.category)}`}>{p.category}</span></p>
+            <h3>{p.title}</h3>
+            <p class="where">{p.where}{p.year && ` · ${p.year}`}</p>
+            <p class="blurb">{p.blurb}</p>
+            {p.impact && <p class="impact">{p.impact}</p>}
+            <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const items = document.querySelectorAll<HTMLElement>('#project-grid .item');
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = b.dataset.f;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      items.forEach((it) => (it.hidden = f !== 'all' && it.dataset.cat !== f));
+    }),
+  );
+</script>
+
+<style>
+  .featured { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .feat { overflow: hidden; display: flex; flex-direction: column; }
+  .feat.lead { grid-column: 1 / -1; flex-direction: row; }
+  .feat.lead .thumb { width: 46%; aspect-ratio: auto; min-height: 100%; }
+  .thumb { width: 100%; aspect-ratio: 16 / 5; object-fit: cover; border-bottom: 1px solid var(--rule); background: #000; }
+  .feat.lead .thumb { border-bottom: 0; border-right: 1px solid var(--rule); }
+  .feat-body { padding: 1.4rem 1.5rem 1.5rem; flex: 1; }
+  .feat h3 { font-size: 1.3rem; margin: 0.3rem 0 0.5rem; }
+  .feat-body > p { color: var(--text-2); font-size: 0.95rem; }
+
+  .art { display: flex; align-items: flex-end; padding: 1.1rem 1.25rem; position: relative; overflow: hidden; }
+  .art span { position: relative; font: 600 1.5rem/1.1 var(--font-serif); color: #fff; opacity: 0.95; }
+  .art::before { content: ''; position: absolute; inset: 0; opacity: 0.35;
+    background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 14px 14px; }
+  .art-vision { background: linear-gradient(135deg, #1f4d7a, #0f2742); }
+  .art-research { background: linear-gradient(135deg, #8a1c1c, #4a0f0f); }
+  .art-llm-mlops { background: linear-gradient(135deg, #2f6b4f, #163a29); }
+  .art-signals-iot { background: linear-gradient(135deg, #7a5a1f, #3d2c0c); }
+
+  .meta { font-size: 0.8rem; color: var(--muted); margin: 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .cat { font: 600 0.68rem/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.5rem; border-radius: 5px; color: #fff; }
+  .cat-vision { background: #1f4d7a; }
+  .cat-research { background: #8a1c1c; }
+  .cat-llm-mlops { background: #2f6b4f; }
+  .cat-signals-iot { background: #7a5a1f; }
+  .impact { display: inline-block; font-weight: 600; font-size: 0.85rem; color: var(--accent); margin: 0 0 0.75rem; }
+  .impact::before { content: '▸ '; }
+  .plinks { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .filter { font: 500 0.82rem var(--font-sans); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--text-2); cursor: pointer; }
+  .filter[aria-pressed='true'] { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1rem; }
+  .item { padding: 1.25rem; display: flex; flex-direction: column; }
+  .item[hidden] { display: none; }
+  .item h3 { margin: 0.6rem 0 0.15rem; font-size: 1.08rem; }
+  .where { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.6rem; }
+  .blurb { font-size: 0.92rem; color: var(--text-2); flex: 1; }
+  .item .chips { margin-top: auto; }
+
+  @media (max-width: 860px) {
+    .featured { grid-template-columns: 1fr; }
+    .feat.lead { flex-direction: column; }
+    .feat.lead .thumb { width: 100%; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--rule); }
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { experience, earlier, education, skills } from '../data/experience';
+import { links } from '../data/site';
+---
+<Base title="Experience" description="Industry and research experience, education, and skills of Hasan Zohirul Islam.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Experience</p>
+      <h1>From sensors to production AI</h1>
+      <p class="lede">
+        More than four years of taking machine learning out of notebooks: embedded sensing, factory-floor
+        computer vision, and telecom-scale MLOps.
+      </p>
+      <a class="btn" href={links.cv}><Icon name="cv" /> Full CV (PDF)</a>
+    </header>
+
+    <section class="section">
+      <div class="section-head"><h2>Work &amp; research</h2></div>
+      <ol class="timeline">
+        {experience.map((r) => (
+          <li class="reveal">
+            <div class="when"><span>{r.period}</span><span class="muted">{r.location}</span></div>
+            <div class="what">
+              <h3>{r.role}</h3>
+              <p class="org">
+                {r.url ? <a href={r.url}>{r.org}</a> : r.org}
+                {r.orgNote && <span class="muted"> · {r.orgNote}</span>}
+              </p>
+              {r.summary && <p class="summary">{r.summary}</p>}
+              <ul>{r.points.map((p) => <li>{p}</li>)}</ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="earlier muted">
+        Earlier: {earlier.map((e, i) => <>{e.role}, {e.org} ({e.period}){i < earlier.length - 1 ? '; ' : '.'}</>)}
+      </p>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-head"><h2>Education</h2></div>
+      <div class="edu">
+        {education.map((e) => (
+          <div class="card ed">
+            <p class="period">{e.period}</p>
+            <h3>{e.degree}</h3>
+            <p class="school">{e.school}</p>
+            <ul>{e.details.map((d) => <li>{d}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-head"><h2>Skills</h2></div>
+      <dl class="skills">
+        {skills.map((s) => (
+          <div><dt>{s.group}</dt><dd><ul class="chips">{s.items.map((i) => <li class="chip">{i}</li>)}</ul></dd></div>
+        ))}
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head .btn { margin-top: 0.5rem; }
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline > li { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--rule); position: relative; }
+  .timeline > li:first-child { border-top: 0; padding-top: 0.5rem; }
+  .when { display: grid; align-content: start; gap: 0.15rem; font-size: 0.85rem; font-family: var(--font-mono); }
+  .what h3 { margin-bottom: 0.15rem; }
+  .org { margin: 0 0 0.5rem; font-weight: 500; }
+  .summary { color: var(--text-2); font-style: italic; font-family: var(--font-serif); margin-bottom: 0.5rem; }
+  .what ul { margin: 0; padding-left: 1.1rem; color: var(--text-2); font-size: 0.95rem; }
+  .what li { margin-bottom: 0.3rem; }
+  .what li::marker { color: var(--accent); }
+  .earlier { font-size: 0.88rem; margin-top: 1rem; }
+
+  .edu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .ed { padding: 1.4rem; }
+  .period { font: 500 0.8rem var(--font-mono); color: var(--muted); margin: 0 0 0.4rem; }
+  .ed h3 { margin-bottom: 0.2rem; }
+  .school { margin: 0 0 0.6rem; color: var(--text-2); }
+  .ed ul { margin: 0; padding-left: 1.1rem; font-size: 0.93rem; color: var(--text-2); }
+
+  .skills { margin: 0; display: grid; gap: 1rem; }
+  .skills > div { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: baseline; }
+  dt { font-weight: 600; font-size: 0.95rem; }
+  dd { margin: 0; }
+
+  @media (max-width: 760px) {
+    .timeline > li, .skills > div { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import { links, profile } from '../data/site';
+const year = new Date().getFullYear();
+const updated = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+---
+<footer class="site-footer">
+  <div class="wrap row">
+    <p>© {year} {profile.name}. Last updated {updated}.</p>
+    <ul class="social" aria-label="Profiles">
+      <li><a href={links.email} aria-label="Email"><Icon name="mail" /></a></li>
+      <li><a href={links.scholar} aria-label="Google Scholar"><Icon name="scholar" /></a></li>
+      <li><a href={links.github} aria-label="GitHub"><Icon name="github" /></a></li>
+      <li><a href={links.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a></li>
+    </ul>
+  </div>
+</footer>
+<style>
+  .site-footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-block: 1.75rem; color: var(--muted); font-size: 0.85rem; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  p { margin: 0; }
+  .social { display: flex; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+  .social a { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; color: var(--muted); }
+  .social a:hover { color: var(--accent); background: var(--surface-2); }
+</style>

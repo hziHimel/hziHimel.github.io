@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import cover from '../assets/beyond-cover.jpg';
+import concert from '../assets/concert.jpg';
+import { pursuits, leadership } from '../data/beyond';
+import { awards } from '../data/awards';
+
+// Simple decorative glyphs per pursuit.
+const glyph: Record<string, string> = {
+  cube: '<rect x="6" y="6" width="36" height="36" rx="5"/><path d="M18 6v36M30 6v36M6 18h36M6 30h36"/>',
+  chess: '<path d="M16 42h16M18 38h12l-2-12h-8zM20 26c-3-2-4-5-4-8a8 8 0 0 1 16 0c0 3-1 6-4 8M24 4v6M21 7h6"/>',
+  music: '<path d="M18 36V10l20-4v26"/><circle cx="13" cy="36" r="5"/><circle cx="33" cy="32" r="5"/>',
+  olympiad: '<circle cx="24" cy="18" r="10"/><path d="m18 26-4 16 10-5 10 5-4-16"/><path d="M24 13v10M20 16l4-3"/>',
+};
+---
+<Base title="Beyond Work" description="Rubik's cube, chess, music, and competitions: Hasan Zohirul Islam outside of research.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Beyond work</p>
+      <h1>Puzzles, pieces &amp; music</h1>
+      <p class="lede">What I do when I am not training models: puzzles, chess, music, and the competitions that got me into problem solving.</p>
+    </header>
+
+    <figure class="cover">
+      <Image src={cover} alt="Himel standing at a hilltop viewpoint above green hills under a cloudy sky" widths={[800, 1400, 2200]} sizes="(max-width: 1080px) 100vw, 1030px" loading="eager" />
+    </figure>
+
+    <section class="section">
+      <div class="pursuits">
+        {pursuits.map((p) => (
+          <article class={`card pursuit reveal ${p.video ? 'wide' : ''}`}>
+            {p.photo && (
+              <Image src={concert} alt="Himel performing on stage with a band at a concert, under green stage lights" widths={[600, 1100, 1600]} sizes="(max-width: 1080px) 100vw, 1030px" class="pursuit-photo" />
+            )}
+            <div class="pursuit-text">
+            <svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyph[p.key]} />
+            <p class="eyebrow">{p.title}</p>
+            <h2>{p.headline}</h2>
+            <p>{p.body}</p>
+            </div>
+            {p.video && (
+              <button type="button" class="yt" data-id={p.video.id} data-title={p.video.title} aria-label={`Play video: ${p.video.title}`}>
+                <img src={`https://i.ytimg.com/vi/${p.video.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+                <span class="play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#c4302b"/><path d="M45 24 27 14v20z" fill="#fff"/></svg></span>
+              </button>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section reveal two">
+      <div>
+        <div class="section-head"><h2>Competitions</h2></div>
+        <ul class="list">
+          {awards.map((a) => (
+            <li><span class="y">{a.year || '—'}</span><div><strong>{a.title}</strong><br /><span class="muted">{a.note}</span></div></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <div class="section-head"><h2>Leadership</h2></div>
+        <ul class="list">
+          {leadership.map((l) => (
+            <li><span class="y">{l.period.split(' ')[0]}</span><div><strong>{l.role}</strong><br /><span class="muted">{l.org}</span></div></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // Load the YouTube player only when clicked (faster page, no tracking cookies before play).
+  document.querySelectorAll<HTMLButtonElement>('.yt').forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0`;
+      f.title = b.dataset.title ?? 'Video';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      f.className = 'yt-frame';
+      b.replaceWith(f);
+    }),
+  );
+</script>
+
+<style>
+  .cover { margin: 0 0 0.5rem; border-radius: 14px; overflow: hidden; border: 1px solid var(--rule); }
+  .cover :global(img) { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 72%; }
+  @media (max-width: 640px) { .cover :global(img) { aspect-ratio: 4 / 3; object-position: 50% 80%; } }
+
+  .yt, :global(.yt-frame) { display: block; width: 100%; aspect-ratio: 16 / 9; margin-top: 1rem; border: 0; border-radius: 8px; overflow: hidden; }
+  .yt { position: relative; padding: 0; cursor: pointer; background: #000; }
+  .yt img { width: 100%; height: 100%; object-fit: cover; opacity: 0.92; transition: opacity .2s; }
+  .yt:hover img { opacity: 1; }
+  .play { position: absolute; inset: 0; display: grid; place-items: center; }
+  .pursuits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .pursuit.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.15fr; gap: 0 2rem; align-items: center; overflow: hidden; }
+  .pursuit.wide :global(.pursuit-photo) { grid-column: 1 / -1; width: calc(100% + 3.5rem); max-width: none; margin: -1.75rem -1.75rem 1.75rem; aspect-ratio: 21 / 8; object-fit: cover; object-position: 50% 62%; border-bottom: 1px solid var(--rule); }
+  .pursuit.wide .yt, .pursuit.wide :global(.yt-frame) { margin-top: 0; }
+  .pursuit { padding: 1.75rem; }
+  .pursuit svg { color: var(--accent); margin-bottom: 1rem; }
+  .pursuit h2 { font-size: 1.45rem; margin-bottom: 0.5rem; }
+  .pursuit > p:not(.eyebrow) { color: var(--text-2); margin: 0; }
+  .two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { display: grid; grid-template-columns: 3.5rem 1fr; gap: 0.75rem; padding: 0.65rem 0; border-top: 1px dashed var(--rule); font-size: 0.94rem; line-height: 1.5; }
+  .list li:first-child { border-top: 0; }
+  .y { font: 500 0.82rem/1.8 var(--font-mono); color: var(--muted); }
+  @media (max-width: 960px) { .pursuits { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 760px) {
+    .pursuits, .two, .pursuit.wide { grid-template-columns: 1fr; }
+    .pursuit.wide .yt, .pursuit.wide :global(.yt-frame) { margin-top: 1rem; }
+    .pursuit.wide :global(.pursuit-photo) { aspect-ratio: 16 / 9; }
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+// Conceptual figure: two input views feed two branches; fusion output looks healthy
+// while one branch contributes little. Purely illustrative, no results shown.
+---
+<figure class="fig">
+  <svg viewBox="0 0 640 250" role="img" aria-labelledby="fd-title fd-desc">
+    <title id="fd-title">Silent branch under-utilization</title>
+    <desc id="fd-desc">Two input views pass through separate branches into a fusion layer. One branch carries a strong signal; the other contributes little, yet the fused prediction still looks accurate.</desc>
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="fill-ink" />
+      </marker>
+    </defs>
+
+    <!-- inputs -->
+    <g class="node">
+      <rect x="10" y="40" width="120" height="54" rx="8" />
+      <text x="70" y="64">View A</text><text x="70" y="81" class="sub">modality 1</text>
+    </g>
+    <g class="node">
+      <rect x="10" y="156" width="120" height="54" rx="8" />
+      <text x="70" y="180">View B</text><text x="70" y="197" class="sub">modality 2</text>
+    </g>
+
+    <!-- branches -->
+    <g class="node strong">
+      <rect x="190" y="40" width="130" height="54" rx="8" />
+      <text x="255" y="64">Branch A</text><text x="255" y="81" class="sub">dominates updates</text>
+    </g>
+    <g class="node faint">
+      <rect x="190" y="156" width="130" height="54" rx="8" />
+      <text x="255" y="180">Branch B</text><text x="255" y="197" class="sub">learning? ignored?</text>
+    </g>
+
+    <!-- fusion + output -->
+    <g class="node">
+      <rect x="380" y="98" width="100" height="54" rx="8" />
+      <text x="430" y="130">Fusion</text>
+    </g>
+    <g class="node good">
+      <rect x="530" y="98" width="100" height="54" rx="8" />
+      <text x="580" y="122">Prediction</text><text x="580" y="139" class="sub">high accuracy ✓</text>
+    </g>
+
+    <!-- edges -->
+    <path d="M130 67H186" class="edge" marker-end="url(#ah)" />
+    <path d="M130 183H186" class="edge" marker-end="url(#ah)" />
+    <path d="M320 67C350 67 350 115 376 115" class="edge thick" marker-end="url(#ah)" />
+    <path d="M320 183C350 183 350 136 376 136" class="edge thin" marker-end="url(#ah)" />
+    <path d="M480 125H526" class="edge" marker-end="url(#ah)" />
+
+    <text x="430" y="200" class="q">Is accuracy evidence</text>
+    <text x="430" y="216" class="q">that both branches learned?</text>
+  </svg>
+  <figcaption>Conceptual sketch of the question behind my thesis. It shows the idea only, not results.</figcaption>
+</figure>
+
+<style>
+  .fig { margin: 0; padding: 1.25rem; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+  svg { width: 100%; height: auto; display: block; font-family: var(--font-sans); }
+  .node rect { fill: var(--surface-2); stroke: var(--rule); stroke-width: 1.5; }
+  .node text { text-anchor: middle; font-size: 14px; font-weight: 600; fill: var(--text); }
+  .node text.sub { font-size: 11px; font-weight: 400; fill: var(--muted); }
+  .node.strong rect { stroke: var(--accent); fill: var(--accent-soft); }
+  .node.faint rect { stroke-dasharray: 5 4; }
+  .node.faint text { opacity: 0.6; }
+  .node.good rect { stroke: var(--ok); }
+  .node.good text.sub { fill: var(--ok); }
+  .edge { fill: none; stroke: var(--text-2); stroke-width: 1.5; }
+  .edge.thick { stroke: var(--accent); stroke-width: 4; }
+  .edge.thin { stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.6; }
+  .fill-ink { fill: var(--text-2); }
+  .q { text-anchor: middle; font-size: 12px; font-style: italic; fill: var(--muted); font-family: var(--font-serif); }
+  figcaption { margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); }
+</style>

@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import FusionDiagram from '../components/FusionDiagram.astro';
+import Icon from '../components/Icon.astro';
+import { links } from '../data/site';
+
+const thesisPoints = [
+  {
+    h: 'The problem',
+    p: 'Multimodal and dual-view models are usually judged by their fused accuracy. A strong number can hide a branch that learned little, or one that learned something useful but is ignored by the fusion layer.',
+  },
+  {
+    h: 'The approach',
+    p: 'A diagnostic protocol that separates these cases: ablations, initialization-matched probes, standalone branch capability, analysis of optimization and gradient behaviour, and targeted interventions, all checked on held-out data.',
+  },
+  {
+    h: 'The setting',
+    p: 'Dual-view models for biomedical audio, evaluated on public heart- and lung-sound benchmarks. The questions themselves apply to multimodal learning in general.',
+  },
+  {
+    h: 'Status',
+    p: 'Experiments are under way and a manuscript is in preparation. I am happy to discuss details with prospective advisors.',
+  },
+];
+
+const directions = [
+  { h: 'Reliable multimodal fusion', p: 'When and why fused models under-use a modality, and how to detect and correct it.' },
+  { h: 'Optimization dynamics', p: 'Gradient competition between branches and how training order shapes what each one learns.' },
+  { h: 'Representation learning', p: 'Whether useful cross-modal information survives through deep encoders or is lost along the way.' },
+  { h: 'Perception for physical systems', p: 'Vision and signal models for edge devices and robots, where reliability matters more than leaderboard scores.' },
+];
+
+const past = [
+  {
+    h: 'Adversarial robustness on the edge',
+    where: 'ACyD Lab, Florida International University · 2023',
+    p: 'Adversarial attacks on distributed deep-learning models running across edge devices.',
+  },
+  {
+    h: 'Animal biometrics',
+    where: 'Adorsho Pranisheba · 2022–2024',
+    p: 'Identifying individual cattle from muzzle prints with detection and metric-learning embeddings. Resulted in an arXiv preprint.',
+    link: { label: 'arXiv:2407.06096', url: links.arxiv },
+  },
+  {
+    h: 'Video understanding',
+    where: 'AVA MIPR IEEE Challenge · 2024',
+    p: 'Accident-risk prediction from dashcam video with TimeSformer, ViViT, and 3-D CNN ensembles, placing 2nd. Next I want to model object relationships with graph neural networks.',
+  },
+  {
+    h: 'Sensor-based behaviour recognition',
+    where: 'Adorsho Pranisheba · 2021–2022',
+    p: 'Recognizing rumination from 1-D signals of jaw-mounted sensors with 1D-CNN, RNN, and LSTM models.',
+  },
+];
+---
+<Base title="Research" description="Research on reliable multimodal fusion, optimization dynamics, and representation learning by Hasan Zohirul Islam.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Research</p>
+      <h1>Does high accuracy mean every modality learned?</h1>
+      <p class="lede">
+        My research asks how we can tell whether a multimodal model is really using all of its inputs. I care
+        about building models we can diagnose, not only models that score well.
+      </p>
+    </header>
+
+    <section class="section">
+      <div class="section-head"><h2>Current work: M.Sc. thesis</h2></div>
+      <div class="thesis">
+        <FusionDiagram />
+        <div class="points">
+          {thesisPoints.map((t) => (
+            <div class="point"><h3>{t.h}</h3><p>{t.p}</p></div>
+          ))}
+        </div>
+      </div>
+      <blockquote>
+        <Icon name="quote" size={22} />
+        <p>High fused accuracy alone is not sufficient evidence that every branch has learned something useful.</p>
+      </blockquote>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-head"><h2>Directions I want to pursue</h2></div>
+      <div class="grid4">
+        {directions.map((d, i) => (
+          <div class="card dir"><span class="n">0{i + 1}</span><h3>{d.h}</h3><p>{d.p}</p></div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-head"><h2>Earlier research</h2></div>
+      <div class="past">
+        {past.map((x) => (
+          <article>
+            <h3>{x.h}</h3>
+            <p class="where">{x.where}</p>
+            <p>{x.p} {x.link && <a href={x.link.url}>{x.link.label}</a>}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="callout-row card">
+        <div>
+          <h2>Interested in working together?</h2>
+          <p class="muted">I am looking for PhD opportunities in ML, computer vision, multimodal learning, signal processing, and robotics.</p>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href={links.email}><Icon name="mail" /> Email me</a>
+          <a class="btn" href={links.cv}><Icon name="cv" /> CV</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head h1 { max-width: 22ch; }
+  .thesis { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: start; }
+  .points { display: grid; gap: 1.1rem; }
+  .point h3 { font-size: 1rem; margin-bottom: 0.2rem; color: var(--accent); font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
+  .point p { margin: 0; font-size: 0.95rem; color: var(--text-2); }
+  blockquote {
+    display: flex; gap: 0.9rem; margin: 2rem 0 0; padding: 1.25rem 1.5rem; max-width: 52rem;
+    border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  blockquote :global(svg) { color: var(--accent); flex-shrink: 0; }
+  blockquote p { margin: 0; font: italic 500 1.2rem/1.45 var(--font-serif); }
+
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .dir { padding: 1.25rem; }
+  .dir .n { font: 600 0.8rem var(--font-mono); color: var(--accent); }
+  .dir h3 { margin: 0.4rem 0 0.4rem; font-size: 1.05rem; }
+  .dir p { margin: 0; font-size: 0.9rem; color: var(--text-2); }
+
+  .past { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem 2.5rem; }
+  .past h3 { margin-bottom: 0.15rem; }
+  .past .where { font-size: 0.82rem; color: var(--muted); margin: 0 0 0.4rem; }
+  .past p { font-size: 0.95rem; color: var(--text-2); margin-bottom: 0; }
+
+  .callout-row { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.75rem; flex-wrap: wrap; }
+  .callout-row h2 { font-size: 1.35rem; margin-bottom: 0.3rem; }
+  .callout-row p { margin: 0; }
+  .cta { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  @media (max-width: 960px) { .thesis { grid-template-columns: 1fr; } .grid4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid4, .past { grid-template-columns: 1fr; } }
+</style>

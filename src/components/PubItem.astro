@@ -1,0 +1,67 @@
+---
+import type { Publication } from '../data/publications';
+import { me } from '../data/publications';
+interface Props { pub: Publication; compact?: boolean }
+const { pub, compact = false } = Astro.props;
+---
+<article class="pub">
+  <div class="year">{pub.year}</div>
+  <div class="body">
+    <h3 class="title">{pub.title}</h3>
+    <p class="authors">
+      {pub.authors.map((a) => (me.includes(a) ? <strong class="au">{a}</strong> : <span class="au">{a}</span>))}
+    </p>
+    <p class="venue">{pub.venue}</p>
+    {!compact && pub.summary && <p class="summary">{pub.summary}</p>}
+    <div class="links">
+      {pub.links?.map((l) => <a class="tag" href={l.url}>{l.label}</a>)}
+      {pub.bibtex && (
+        <details class="bib">
+          <summary class="tag">BibTeX</summary>
+          <div class="bib-box">
+            <pre><code>{pub.bibtex}</code></pre>
+            <button type="button" class="copy" data-copy={pub.bibtex}>Copy</button>
+          </div>
+        </details>
+      )}
+    </div>
+  </div>
+</article>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((b) => {
+    if (b.dataset.bound) return;
+    b.dataset.bound = '1';
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.copy ?? ''); b.textContent = 'Copied'; }
+      catch { b.textContent = 'Select & copy'; }
+      setTimeout(() => (b.textContent = 'Copy'), 1600);
+    });
+  });
+</script>
+
+<style>
+  .pub { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding-block: 1.1rem; border-top: 1px solid var(--rule); }
+  .pub:first-child { border-top: 0; }
+  .year { font: 600 0.9rem/1.6 var(--font-mono); color: var(--muted); padding-top: 0.15rem; }
+  .title { font-size: 1.08rem; margin: 0 0 0.3rem; }
+  .authors, .venue { margin: 0; font-size: 0.92rem; color: var(--text-2); }
+  .authors strong { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  .au:not(:last-child)::after { content: ', '; font-weight: 400; color: var(--text-2); }
+  .authors strong.au:not(:last-child)::after { display: inline-block; text-decoration: none; margin-right: 0.25em; }
+  .venue { font-style: italic; font-family: var(--font-serif); }
+  .summary { margin: 0.5rem 0 0; font-size: 0.93rem; color: var(--text-2); max-width: var(--measure); }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.6rem; }
+  .tag {
+    display: inline-block; font: 600 0.72rem/1 var(--font-sans); letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 0.38rem 0.6rem; border: 1px solid var(--rule); border-radius: 6px;
+    color: var(--text-2); text-decoration: none; cursor: pointer; background: var(--surface); list-style: none;
+  }
+  .tag::-webkit-details-marker { display: none; }
+  .tag:hover, .bib[open] .tag { border-color: var(--accent); color: var(--accent); }
+  .bib[open] { flex-basis: 100%; }
+  .bib-box { position: relative; margin-top: 0.5rem; }
+  pre { margin: 0; padding: 0.9rem 1rem; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 8px; overflow-x: auto; font-size: 0.78rem; line-height: 1.55; }
+  .copy { position: absolute; top: 6px; right: 6px; font: 500 0.75rem var(--font-sans); padding: 0.3rem 0.55rem; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--text-2); cursor: pointer; }
+  @media (max-width: 560px) { .pub { grid-template-columns: 1fr; gap: 0.2rem; } }
+</style>
