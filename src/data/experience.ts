@@ -1,5 +1,15 @@
+import type { ImageMetadata } from 'astro';
+import gpLogo from '../assets/logos/grameenphone.svg';
+import aciLogo from '../assets/logos/aci.png';
+import fiuLogo from '../assets/logos/fiu.svg';
+import adorshoLogo from '../assets/logos/adorsho.png';
+
 export type Role = {
   org: string;
+  logo?: ImageMetadata;
+  /** Start and end as 'YYYY-MM'; omit `end` for a current role. Used for the duration label. */
+  start: string;
+  end?: string;
   orgNote?: string;
   url?: string;
   role: string;
@@ -14,6 +24,8 @@ export const experience: Role[] = [
     org: 'Grameenphone Ltd.',
     orgNote: 'Telenor Group',
     url: 'https://www.grameenphone.com/',
+    logo: gpLogo,
+    start: '2025-04',
     role: 'AI Engineer / Senior Executive',
     period: 'Apr 2025 – Present',
     location: 'Dhaka, Bangladesh',
@@ -29,6 +41,9 @@ export const experience: Role[] = [
   {
     org: 'ACI Ltd.',
     url: 'https://www.aci-bd.com/',
+    logo: aciLogo,
+    start: '2023-09',
+    end: '2025-03',
     role: 'Machine Learning Engineer',
     period: 'Sep 2023 – Mar 2025',
     location: 'Dhaka, Bangladesh',
@@ -43,6 +58,10 @@ export const experience: Role[] = [
   {
     org: 'Analytics for Cyber Defense (ACyD) Lab',
     orgNote: 'Florida International University',
+    url: 'https://www.fiu.edu/',
+    logo: fiuLogo,
+    start: '2023-03',
+    end: '2023-06',
     role: 'Graduate Research Assistant',
     period: 'Mar 2023 – Jun 2023',
     location: 'Miami, FL, USA',
@@ -50,6 +69,10 @@ export const experience: Role[] = [
   },
   {
     org: 'Adorsho Pranisheba Ltd.',
+    url: 'https://www.pranisheba.com.bd/eng',
+    logo: adorshoLogo,
+    start: '2021-07',
+    end: '2022-11',
     role: 'IoT Engineer / Embedded Software Developer',
     period: 'Jul 2021 – Nov 2022',
     location: 'Dhaka, Bangladesh',
