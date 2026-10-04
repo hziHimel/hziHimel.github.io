@@ -1,7 +1,7 @@
 import alpr from '../assets/alpr.png';
 import type { ImageMetadata } from 'astro';
 
-export type Category = 'Vision' | 'Signals & IoT' | 'LLM & MLOps' | 'Research';
+export type Category = 'Vision' | 'Research' | 'Language & Speech' | 'Predictive ML' | 'Signals & IoT';
 
 export type Project = {
   title: string;
@@ -62,25 +62,35 @@ export const projects: Project[] = [
     stack: ['TimeSformer', 'ViViT', '3D-CNN', 'Ensembles'],
   },
   {
-    title: 'Semantic Search for MyGP',
-    category: 'LLM & MLOps',
+    title: 'Network Operations AI Assistant',
+    category: 'Language & Speech',
     where: 'Grameenphone',
-    year: '2025–',
+    year: '2025–Present',
+    blurb:
+      'A dual-mode agentic assistant for field technicians across the national tower network. It combines a retrieval-augmented generation (RAG) knowledge base with a Text-to-SQL module for natural-language queries over live tower and alarm data.',
+    impact: 'Deployed on Azure AI Foundry',
+    stack: ['Agentic RAG', 'Text-to-SQL', 'LLMs', 'Azure AI Foundry'],
+  },
+  {
+    title: 'Semantic Search for MyGP',
+    category: 'Language & Speech',
+    where: 'Grameenphone',
+    year: '2025–Present',
     blurb: 'Semantic retrieval for a super-app, served by on-premises LLM inference behind production search backends.',
     impact: '22M+ user ecosystem',
     stack: ['LLMs', 'Ollama', 'Embeddings', 'RAG'],
   },
   {
     title: 'Churn Prediction & Pack Recommendation',
-    category: 'LLM & MLOps',
+    category: 'Predictive ML',
     where: 'Grameenphone',
-    year: '2025–',
+    year: '2025–Present',
     blurb: 'Customer-level models that flag churn risk and recommend telecom packs, with monitoring across the model lifecycle.',
     stack: ['Classification', 'Recommenders', 'Monitoring', 'CI/CD'],
   },
   {
     title: 'AI Call-Center Assistant',
-    category: 'LLM & MLOps',
+    category: 'Language & Speech',
     where: 'Telenor Global Hackathon',
     year: '2025',
     blurb: 'Scores calls on ASR quality, tone, politeness, and empathy, and adds sign-language video calls with an avatar responder.',
@@ -105,7 +115,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Sales Forecasting & Field-Force Analytics',
-    category: 'Signals & IoT',
+    category: 'Predictive ML',
     where: 'ACI Ltd.',
     year: '2023–25',
     blurb: 'Forecasts sales targets and tracks field-force performance to support planning.',

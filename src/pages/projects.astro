@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { projects, type Category } from '../data/projects';
 
-const categories: Category[] = ['Vision', 'Research', 'LLM & MLOps', 'Signals & IoT'];
+const categories: Category[] = ['Vision', 'Research', 'Language & Speech', 'Predictive ML', 'Signals & IoT'];
 const featured = projects.filter((p) => p.featured);
 const rest = projects.filter((p) => !p.featured);
 const slug = (c: string) => c.toLowerCase().replace(/[^a-z]+/g, '-');
@@ -99,14 +99,16 @@ const slug = (c: string) => c.toLowerCase().replace(/[^a-z]+/g, '-');
     background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 14px 14px; }
   .art-vision { background: linear-gradient(135deg, #1f4d7a, #0f2742); }
   .art-research { background: linear-gradient(135deg, #8a1c1c, #4a0f0f); }
-  .art-llm-mlops { background: linear-gradient(135deg, #2f6b4f, #163a29); }
+  .art-language-speech { background: linear-gradient(135deg, #2f6b4f, #163a29); }
+  .art-predictive-ml { background: linear-gradient(135deg, #5a3d7a, #2c1d3d); }
   .art-signals-iot { background: linear-gradient(135deg, #7a5a1f, #3d2c0c); }
 
   .meta { font-size: 0.8rem; color: var(--muted); margin: 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
   .cat { font: 600 0.68rem/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.5rem; border-radius: 5px; color: #fff; }
   .cat-vision { background: #1f4d7a; }
   .cat-research { background: #8a1c1c; }
-  .cat-llm-mlops { background: #2f6b4f; }
+  .cat-language-speech { background: #2f6b4f; }
+  .cat-predictive-ml { background: #5a3d7a; }
   .cat-signals-iot { background: #7a5a1f; }
   .impact { display: inline-block; font-weight: 600; font-size: 0.85rem; color: var(--accent); margin: 0 0 0.75rem; }
   .impact::before { content: '▸ '; }
